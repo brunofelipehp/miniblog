@@ -1,5 +1,9 @@
 import styles from "./About.module.css";
 
 export const About = () => {
-  return <div>About</div>;
+  return (
+    <div>
+      <h1>About</h1>
+    </div>
+  );
 };
