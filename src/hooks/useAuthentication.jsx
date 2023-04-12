@@ -50,18 +50,49 @@ export const useAuthentication = () => {
       console.log(error.message);
       console.log(typeof error.message);
 
-      let systrmErrorMessage;
+      let systemErrorMessage;
 
       if (error.message.includes("Password")) {
-        systrmErrorMessage = "A senha precisa conter pelo menos 6 caracteres";
+        systemErrorMessage = "A senha precisa conter pelo menos 6 caracteres";
       } else if (error.message.includes("email-already")) {
-        systrmErrorMessage = "Email já cadastrado.";
+        systemErrorMessage = "Email já cadastrado.";
       } else {
-        systrmErrorMessage = "Ocorreu erro, por favor tente mais tarde.";
+        systemErrorMessage = "Ocorreu erro, por favor tente mais tarde.";
       }
       setLoading(false);
-      setError(systrmErrorMessage);
+      setError(systemErrorMessage);
     }
+  };
+
+  const login = async (data) => {
+    checkIfIscancelled();
+
+    setLoading(true);
+    setError(false);
+
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+      setLoading(false);
+    } catch (error) {
+      let systemErrorMessage;
+
+      if (error.message.includes("user-not-found")) {
+        systemErrorMessage = "Usuario não encontrado.";
+      } else if (error.message.includes("wrong-password")) {
+        systemErrorMessage = "Senha incorreta.";
+      } else {
+        systemErrorMessage = "Ocorreu um erro, por favor tente mais tarde.";
+      }
+
+      setLoading(false);
+      setError(systemErrorMessage);
+    }
+  };
+
+  const logout = () => {
+    checkIfIscancelled();
+
+    signOut(auth);
   };
 
   useEffect(() => {
@@ -73,5 +104,7 @@ export const useAuthentication = () => {
     createUser,
     error,
     loading,
+    logout,
+    login,
   };
 };
