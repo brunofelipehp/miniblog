@@ -6,12 +6,11 @@ import {
   orderBy,
   onSnapshot,
   where,
-  querySnapshot,
 } from "firebase/firestore";
 
 export const useFetchDocuments = (docCollection, search = null, uid = null) => {
   const [documents, setDocuments] = useState(null);
-  const [error, setError] = useState(nu);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
 
   // deal with memory leak
@@ -28,14 +27,19 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
       try {
         let q;
 
-        //buscar
-        //dashboard
+        if (search) {
+          q = await query(
+            collectionRef,
+            where("tagsArray", "array-contains", search),
+            orderBy("createdAt", "desc")
+          );
+        } else {
+          q = await query(collectionRef, orderBy("createdAt", "desc"));
+        }
 
-        q = await query(collectionRef, orderBy("createdAt", "desc"));
-
-        await onSnapshot(q, (QuerySnapshot) => {
+        await onSnapshot(q, (querySnapshot) => {
           setDocuments(
-            querySnapshot.doc.map((doc) => ({
+            querySnapshot.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
             }))
