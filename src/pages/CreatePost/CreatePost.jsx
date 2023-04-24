@@ -45,7 +45,7 @@ export const CreatePost = () => {
       image,
       body,
       tagsArray,
-      uiu: user.uid,
+      uid: user.uid,
       createBy: user.displayName,
     });
 
