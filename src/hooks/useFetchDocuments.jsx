@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { db } from "../firebase/config";
 import {
   collection,
@@ -7,6 +6,8 @@ import {
   onSnapshot,
   where,
 } from "firebase/firestore";
+
+import { useState, useEffect } from "react";
 
 export const useFetchDocuments = (docCollection, search = null, uid = null) => {
   const [documents, setDocuments] = useState(null);

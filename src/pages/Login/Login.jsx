@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { useAuthentication } from "../../hooks/useAuthentication";
 
 import styles from "./Login.module.css";
@@ -8,7 +9,7 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { login, error: authError, loading } = useAuthentication();
+  const { error: authError, loading } = useAuthentication();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +20,6 @@ export const Login = () => {
       email,
       password,
     };
-
-    const res = await login(user);
 
     console.log(user);
   };
